@@ -1,0 +1,1 @@
+U ovom folderu ce se nalaziti obradjeni signali
