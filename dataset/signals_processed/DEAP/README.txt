@@ -1,0 +1,1 @@
+Ovde se nalaze signali koji su pretprocesirani iz baze DEAP
