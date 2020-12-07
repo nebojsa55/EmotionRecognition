@@ -10,6 +10,17 @@ import pickle
 import pandas as pd
 import os.path
 
+# Indeksi signala za promenljivu data
+# Ako zelite da izdvojite samo EEG npr, notacija je kao
+# data[x,EEG_ch,:] gde je x broj triala
+
+EEG_ch = range(32);
+EOG_ch = range(32,34);
+EMG_ch = range(34,36);
+GSR_ch = 36;
+Resp_ch = 37; # respiracija
+Plet_ch = 38; # pletizmograf
+Temp_ch = 39; # temperatura
 
 PATH =  os.path.dirname(__file__) + '\..\dataset\signals_processed\DEAP\s01.dat'
 
