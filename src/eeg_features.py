@@ -1,5 +1,5 @@
 """
-Implementirane su funkcije za izracunavanje obelezja iz 2. i 4. reda
+Implementirane su funkcije za izracunavanje obelezja iz 2., 3. i 4. reda
 iz Tamarine tabele
 Koriscena je biblioteka pyphysio, toplo preporucujem posto su mnoge funkcije
 vec napisane, i to jos za ekg,emg i gsr pored eeg signala
@@ -120,7 +120,41 @@ def band_features(eeg,fs):
 
     
     return final_dict
-        
+
+def hjorth_features(eeg,fs):
+    """
+    Calculation of EEG features introduced by Hjorth in "B. Hjorth, 
+    “EEG analysis based on time domain properties,” Electroencephalogr.
+    Clin. Neurophysiol., vol. 29, no. 3, pp. 306–310, 1970."
+    
+    Parameters
+    ----------
+    eeg : array,list -> 1-channel eeg signal
+    fs : int -> sample frequency
+
+    Returns
+    -------
+    hjorth : dic -> dictionary containing activity,mobility and complexity parameters
+
+    """
+    eeg_sig = EvenlySignal(values = eeg,
+                           sampling_freq = fs, 
+                           signal_type = 'eeg')      
+    
+    # activity is just squared std!
+    a = pow(np.sum(eeg_sig - np.mean(eeg_sig)),2)/len(eeg_sig)
+    m = np.sqrt(np.var(np.gradient(eeg_sig))/np.var(eeg_sig))
+    c = np.sqrt(np.var(np.gradient(np.gradient(eeg_sig)))/np.var(np.gradient(eeg_sig)))/np.sqrt(np.var(np.gradient(eeg_sig))/np.var(eeg_sig))
+    
+    return {
+        "activity" : a,
+        "mobility" : m,
+        "complexity": c
+           }
+    
+    
+    
+
         
 if __name__ == "__main__":
     
@@ -143,7 +177,7 @@ if __name__ == "__main__":
     # Dictionaries
     stats = statistical_features(data,fs)
     band = band_features(data, fs)
-        
+    hjorth = hjorth_features(data, fs)
     
     
     
