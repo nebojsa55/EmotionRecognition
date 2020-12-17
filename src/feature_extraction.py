@@ -9,6 +9,8 @@ import numpy as np
 import pickle 
 import pandas as pd
 import os.path
+import tqdm # biblioteka za loading bar, instalirati kao pip install tqdm
+
 
 # Indeksi signala za promenljivu data
 # Ako zelite da izdvojite samo EEG npr, notacija je kao
@@ -31,11 +33,32 @@ with open(PATH, 'rb') as f:
     
     
 labels = pd.DataFrame(data[b'labels'], columns = ['valence','arousal', 'dominance', 'liking'])                                               
+
+# data je organizovano kao struktura dimenzija 40x40x8064 (num_rial x 
 data = data[b'data']
 
 
 ##### FEATURE EXTRACTION matrica 40 x num_of_features ########
-#### Ovde dodati vas kod #######3
+#### Ovde dodati vas kod #######
+
+    
+
+
+for i in tqdm.tqdm(range(40),desc = 'Number of trials'):
+    
+    signals = data[i,:,:] # signals from current trial
+    eeg = signals[EEG_ch]
+    emg = signals[EMG_ch]
+    eog = signals[EOG_ch]
+    gsr = signals[GSR_ch]
+    plet = signals[Plet_ch]
+    resp = signals[Resp_ch]
+    temp = signals[Temp_ch]
+    
+    
+
+
+
 
 
 #### 
