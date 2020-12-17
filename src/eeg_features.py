@@ -77,56 +77,47 @@ def band_features(eeg,fs):
     
     
     # Konstrukcija filtara 
-    delta_filt_ = filters.FIRFilter([0.5, 4.2],[0.1,5])
+    
     theta_filt_ = filters.FIRFilter([3.8,8.2],[3,9])
     alpha_filt_ = filters.FIRFilter([7.8,12.2], [7,13])
     beta_filt_ = filters.FIRFilter([15,32], [14,33])
-    gamma_filt_ = filters.FIRFilter([32,60], [31, 61])
     
     
     # Izdvajanje talasa
-    delta = delta_filt_(eeg_sig)
+    
     theta = theta_filt_(eeg_sig)
     alpha = alpha_filt_(eeg_sig)
     beta = beta_filt_(eeg_sig)
-    gamma = gamma_filt_(eeg_sig)
     
     # Statisticka obelezja
-    delta_statistical = statistical_features(delta, fs)
+
     theta_statistical = statistical_features(theta, fs)
     alpha_statistical = statistical_features(alpha, fs)
-    beta_statistical = statistical_features(beta, fs)
-    gamma_statistical = statistical_features(gamma, fs) 
+    beta_statistical = statistical_features(beta, fs) 
     
     # PSD
     
-    delta_PSD = fq_ind.InBand(0.5,4,'welch')(eeg_sig)
     theta_PSD = fq_ind.InBand(4,8,'welch')(eeg_sig)
     alpha_PSD = fq_ind.InBand(8,12,'welch')(eeg_sig)
     beta_PSD = fq_ind.InBand(15,32,'welch')(eeg_sig)
-    gamma_PSD = fq_ind.InBand(32,60,'welch')(eeg_sig)
     
     
     ## Create dictionary
     
     final_dict = {}
     
-    for key in delta_statistical:
-        final_dict.update({'delta_' + key : delta_statistical[key]})
     for key in theta_statistical:
         final_dict.update({'theta_' + key : theta_statistical[key]})
     for key in alpha_statistical:
         final_dict.update({'alpha_' + key : alpha_statistical[key]})
     for key in beta_statistical:
         final_dict.update({'beta_' + key : beta_statistical[key]})
-    for key in gamma_statistical:
-        final_dict.update({'gamma_' + key : gamma_statistical[key]})
     
-    final_dict.update({'delta_PSD' : np.mean(np.log(delta_PSD[1]))})
+
     final_dict.update({'theta_PSD' : np.mean(np.log(theta_PSD[1]))})
     final_dict.update({'alpha_PSD' : np.mean(np.log(alpha_PSD[1]))})
     final_dict.update({'beta_PSD' :  np.mean(np.log(beta_PSD[1]))})
-    final_dict.update({'gamma_PSD' : np.mean(np.log(gamma_PSD[1]))})
+
     
     return final_dict
         
