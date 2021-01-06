@@ -19,7 +19,6 @@ def statistical_features(eeg,fs):
         fs -> sampling frequency
 
     """
-    import pyphysio.indicators.TimeDomain as td_ind
     eeg_sig = EvenlySignal(values = eeg,
                            sampling_freq = fs, 
                            signal_type = 'eeg')
@@ -153,7 +152,8 @@ def hjorth_features(eeg,fs):
            }
     
     
-    
+def discrete_wavelet():
+        
 
         
 if __name__ == "__main__":
