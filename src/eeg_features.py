@@ -159,25 +159,35 @@ def hjorth_features(eeg,fs):
         "complexity": c
            }
     
-def ApEn(data, m, r):
+
+def SampEn(L, m, r):
     """
-    Implementation for approximate entropy given on https://en.wikipedia.org/wiki/Approximate_entropy
-    and is based on the paper " "Approximate Entropy and Sample Entropy: A Comprehensive Tutorial"
-    (2019) Delgado-Bonal et al.
+    Helper function. Implementation for approximate entropy given on 
+    hhttps://en.wikipedia.org/wiki/Sample_entropy and is based on the paper 
+    "Approximate Entropy and Sample Entropy: A Comprehensive Tutorial" (2019) Delgado-Bonal et al.
 
     """
-    def _maxdist(x_i, x_j):
-        return max([abs(ua - va) for ua, va in zip(x_i, x_j)])
-
-    def _phi(m):
-        x = [[U[j] for j in range(i, i + m - 1 + 1)] for i in range(N - m + 1)]
-        C = [len([1 for x_j in x if _maxdist(x_i, x_j) <= r]) / (N - m + 1.0) for x_i in x]
-        return (N - m + 1.0)**(-1) * sum(np.log(C))
-
-    N = len(U)
-
-    return abs(_phi(m + 1) - _phi(m))
+    N = len(L)
+    B = 0.0
+    A = 0.0
     
+    
+    # Split time series and save all templates of length m
+    xmi = np.array([L[i : i + m] for i in range(N - m)])
+    xmj = np.array([L[i : i + m] for i in range(N - m + 1)])
+
+    # Save all matches minus the self-match, compute B
+    B = np.sum([np.sum(np.abs(xmii - xmj).max(axis=1) <= r) - 1 for xmii in xmi])
+
+    # Similar for computing A
+    m += 1
+    xm = np.array([L[i : i + m] for i in range(N - m + 1)])
+
+    A = np.sum([np.sum(np.abs(xmi - xm).max(axis=1) <= r) - 1 for xmi in xm])
+
+    # Return SampEn
+    return -np.log(A / B) 
+  
 def discrete_wavelet_features(eeg,fs):
     """
     Calculation of EEG features by using DWT (discrete wavelet transform). The
@@ -217,9 +227,9 @@ def discrete_wavelet_features(eeg,fs):
     ree_gamma = gamma_energy/total
     
     # Calculate entropy
-    alpha_entropy = ApEn(alpha,2,3)
-    beta_entropy = ApEn(beta,2,3)
-    gamma_entropy = ApEn(gamma,2,3)
+    alpha_entropy = SampEn(alpha,2,3)
+    beta_entropy = SampEn(beta,2,3)
+    gamma_entropy = SampEn(gamma,2,3)
 
     return {
         "alpha_energy" : alpha_energy,
@@ -237,24 +247,42 @@ def discrete_wavelet_features(eeg,fs):
         
 if __name__ == "__main__":
     
-    # """
-    # Currently the pyphysio library does not contain test EEG data
-    # so we will generate some artificial data for testing.
-    # Feel free to insert here your own eeg data and to test
-    # the functions
-    # """
+    import pandas as pd 
+    import os,tqdm
+    import pickle 
     
-    # np.random.seed(4)    
-    # data = np.random.uniform(0,350,8000)
-    # fs = 200
+    # Extract features from EEG signals
+    EEG_ch = range(32)
+    EEG_ch_names = ['Fp1','AF3', 'F3', 'F7', 'FC5', 'FC1', 'C3','T7','CP5','CP1',
+                    'P3','P7','PO3','O1','Oz','Pz','Fp2','AF4','Fz','F4','F8','FC6',
+                    'FC2','Cz','C4','T8','CP6','CP2','P4','P8','PO4','O2']
+    fs = 128 # Hz
     
-    # Treba ovaj fajl prvo kreirati skriptom izdvajanje_test_signala
-    data = np.loadtxt('eeg_test.txt')
-    fs = 128 #Hz
-    
-    
-    # Dictionaries
-    stats = statistical_features(data,fs)
-    band = band_features(data, fs)
-    hjorth = hjorth_features(data, fs)
-    coeffs = discrete_wavelet_features(data, fs)            
+    for j in tqdm.tqdm(EEG_ch,desc = 'EEG channel number', total = 32):
+        d = []
+        for k in tqdm.tqdm(range(32),desc = 'Subject ID', total = 32): 
+            PATH = os.path.dirname(os.path.abspath('')) 
+            + '\dataset\signals_processed\DEAP\s{num:02d}.dat'.format(num = k + 1)
+            
+            with open(PATH, 'rb') as f:
+                data = pickle.load(f, encoding = 'bytes') # data_dim 40x40x8064 (num_videos x phy_channels x data)                                             
+        
+
+            data = data[b'data']
+            d1 = pd.DataFrame([statistical_features(data[i,j,:],fs) 
+                            for i in tqdm.tqdm(range(40), desc = 'Stat features', total = 40)])
+            d1 = (d1-d1.mean())/d1.std() #standardization
+            d2 = pd.DataFrame([band_features(data[i,j,:],fs) 
+                            for i in tqdm.tqdm(range(40), desc = 'Band features', total = 40)])
+            d2 = (d2-d2.mean())/d2.std() #standardization
+            d3 = pd.DataFrame([hjorth_features(data[i,j,:],fs) 
+                            for i in tqdm.tqdm(range(40), desc = 'Hjorth features', total = 40)])
+            d3 = (d3-d3.mean())/d3.std() #standardization
+            d4 = pd.DataFrame([discrete_wavelet_features(data[i,j,:], fs) 
+                            for i in tqdm.tqdm(range(40), desc = 'Wavelet features', total = 40)])
+            d4 = (d4-d4.mean())/d4.std() #standardization
+            # Put together all the features and save them
+            d.append(pd.concat([d1,d2,d3,d4], axis = 1))
+        
+     
+            
