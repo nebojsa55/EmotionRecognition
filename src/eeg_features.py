@@ -227,9 +227,9 @@ def discrete_wavelet_features(eeg,fs):
     ree_gamma = gamma_energy/total
     
     # Calculate entropy
-    alpha_entropy = SampEn(alpha,2,3)
-    beta_entropy = SampEn(beta,2,3)
-    gamma_entropy = SampEn(gamma,2,3)
+    # alpha_entropy = SampEn(alpha,2,3)
+    # beta_entropy = SampEn(beta,2,3)
+    # gamma_entropy = SampEn(gamma,2,3)
 
     return {
         "alpha_energy" : alpha_energy,
@@ -238,9 +238,9 @@ def discrete_wavelet_features(eeg,fs):
         "alpha_ree" : ree_alpha,
         "beta_ree" : ree_beta,
         "gamma_ree" : ree_gamma,
-        "alpha_entropy" : alpha_entropy,
-        "beta_entropy" : beta_entropy,
-        "gamma_entropy" : gamma_entropy
+        # "alpha_entropy" : alpha_entropy,
+        # "beta_entropy" : beta_entropy,
+        # "gamma_entropy" : gamma_entropy
            }
     
 
@@ -253,16 +253,15 @@ if __name__ == "__main__":
     
     # Extract features from EEG signals
     EEG_ch = range(32)
-    EEG_ch_names = ['Fp1','AF3', 'F3', 'F7', 'FC5', 'FC1', 'C3','T7','CP5','CP1',
-                    'P3','P7','PO3','O1','Oz','Pz','Fp2','AF4','Fz','F4','F8','FC6',
-                    'FC2','Cz','C4','T8','CP6','CP2','P4','P8','PO4','O2']
+    EEG_ch_names = ['\Fp1','\AF3', '\F3', '\F7', '\FC5', '\FC1', '\C3','\T7','\CP5','\CP1',
+                    '\P3','\P7','\PO3','\O1','\Oz','\Pz','\Fp2','\AF4','\Fz','\F4','\F8','\FC6',
+                    '\FC2','\Cz','\C4','\T8','\CP6','\CP2','\P4','\P8','\PO4','\O2']
     fs = 128 # Hz
     
     for j in tqdm.tqdm(EEG_ch,desc = 'EEG channel number', total = 32):
         d = []
         for k in tqdm.tqdm(range(32),desc = 'Subject ID', total = 32): 
-            PATH = os.path.dirname(os.path.abspath('')) 
-            + '\dataset\signals_processed\DEAP\s{num:02d}.dat'.format(num = k + 1)
+            PATH = os.path.dirname(os.path.abspath('')) + '\dataset\signals_processed\DEAP\s{num:02d}.dat'.format(num = k + 1)
             
             with open(PATH, 'rb') as f:
                 data = pickle.load(f, encoding = 'bytes') # data_dim 40x40x8064 (num_videos x phy_channels x data)                                             
@@ -282,7 +281,10 @@ if __name__ == "__main__":
                             for i in tqdm.tqdm(range(40), desc = 'Wavelet features', total = 40)])
             d4 = (d4-d4.mean())/d4.std() #standardization
             # Put together all the features and save them
-            d.append(pd.concat([d1,d2,d3,d4], axis = 1))
-        
+            df = pd.concat([d1,d2,d3,d4], axis = 1)
+            
+            PATH_SAVE = os.path.dirname(os.path.abspath('')) + '\src\eeg_features' + str(EEG_ch_names[j])
+            
+            df.to_csv(PATH_SAVE + '\s{num:02d}_eegfeatures.csv'.format(num = k + 1))
      
             
