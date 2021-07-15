@@ -24,10 +24,10 @@ U ovom radu su inicijalno izdvojena 1490 obeležja, i navedena u sledećoj tabel
 
 | Rad       | Fiziološki signal           | Obeležja  | Broj obeležja|
 | :-------------: |:-------------:| :-----:|:-----:|
-| Jenke 2014.      | EEG | Snaga, srednja vrednost (MEAN), standardna devijacija (STD), prvi izvod, normalizovan prvi izvod, drugi izvod, normalizovan drugi izvod. |7x4x32|
-| Jenke 2014.      | EEG      |   Aktivnost, mobilnost, kompleksnost|4x4x32|
-| Jenke 2014. | EEG      |   Spektralna gustina snage u alfa, beta, gama i delta opsegu. |3x4x32|
-| Jenke 2014.      | EEG | Diskretna wavelet transformacija. |4x32|
+| Jenke 2014.      | EEG | Snaga, srednja vrednost (MEAN), standardna devijacija (STD), prvi izvod, normalizovan prvi izvod, drugi izvod, normalizovan drugi izvod. |7x3x32 -> obelezja * frekv.opseg * broj kanala|
+| Jenke 2014.      | EEG      |   Aktivnost, mobilnost, kompleksnost|4x3x32|
+| Jenke 2014. | EEG      |   Spektralna gustina snage u alfa, beta, gama i delta opsegu. |3x32|
+| Jenke 2014.      | EEG | Diskretna wavelet transformacija. |6x32|
 | po ugledu na Johnwakim 2008.      | Respiratorni pojas   |   Maksimalna amplituda spektra, MEAN spektra u opsegu 0.2-0.5 Hz, maksimalna amplituda spektralne gustine snage, MEAN spektralne gustine snage u opsegu 0.2-0.5 Hz|4|
 | Johnwakim 2008.| HRV    |MEAN peak-to-peak intervala, STD peak-to-peak intervala, SDT prvog izvoda intervala, median intervala, opseg intervala, MEAN brzine disanja, maksimum brzine disanja, minimum brzine disanja, STD brzine disanja, broj intervala duzih od 50 i 20 ms i njihov udeo u ukupnom broju intervala, koren iz MEAN sume kvadrata peak-to-peak intervala, koeficijent promene intervala, koeficijent varijacije intervala. Ukupna gustina snage, snaga u VLF opsegu (0.003-0.04 Hz), LF opsegu (0.04-0.15 Hz) i HF opsegu (0.15-40 Hz), odnos LF/HF, normalizovana snaga u LF i HF opsegu|23|
 | Johnwakim 2008.    | GSR | MEAN, STD, MEAN prvog izvoda, MEAN drugog izvoda nefiltriranog i lowpass (LP) filtriranog signala (fcutoff=0.2 Hz). Broj pikova u LP i very lowpass (VLP) signalu (fcutoff=0.08 Hz), njihov odnos i srednja amplitude.|12|
