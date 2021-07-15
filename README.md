@@ -24,27 +24,19 @@ U ovom radu su inicijalno izdvojena 1490 obeležja, i navedena u sledećoj tabel
 
 | Rad       | Fiziološki signal           | Obeležja  | Broj obeležja|
 | :-------------: |:-------------:| :-----:|:-----:|
-| Jenke 2014.      | EEG | Snaga, srednja vrednost (MEAN), standardna devijacija (STD), prvi izvod, normalizovan prvi izvod, drugi izvod, normalizovan drugi izvod. ||
-| Jenke 2014.      | EEG      |   Aktivnost, mobilnost, kompleksnost||
-| Jenke 2014. | EEG      |   Spektralna gustina snage u alfa, beta, gama i delta opsegu. ||
-| Jenke 2014.      | EEG | Diskretna wavelet transformacija. ||
-| po ugledu na Johnwakim 2008.      | Respiratorni pojas   |   Maksimalna amplituda spektra, MEAN spektra u opsegu 0.2-0.5 Hz, maksimalna amplituda spektralne gustine snage, MEAN spektralne gustine snage u opsegu 0.2-0.5 Hz||
-| Johnwakim 2008.| HRV    |MEAN peak-to-peak intervala, STD peak-to-peak intervala, SDT prvog izvoda intervala, median intervala, opseg intervala, MEAN brzine disanja, maksimum brzine disanja, minimum brzine disanja, STD brzine disanja, broj intervala duzih od 50 i 20 ms i njihov udeo u ukupnom broju intervala, koren iz MEAN sume kvadrata peak-to-peak intervala, koeficijent promene intervala, koeficijent varijacije intervala. Ukupna gustina snage, snaga u VLF opsegu (0.003-0.04 Hz), LF opsegu (0.04-0.15 Hz) i HF opsegu (0.15-40 Hz), odnos LF/HF, normalizovana snaga u LF i HF opsegu||
-| Johnwakim 2008.    | GSR | MEAN, STD, MEAN prvog izvoda, MEAN drugog izvoda nefiltriranog i lowpass (LP) filtriranog signala (fcutoff=0.2 Hz);
-Broj pikova u LP i very lowpass (VLP) signalu (fcutoff=0.08 Hz), njihov odnos i srednja amplitude.||
-| DEAP   | GSR     |  Brzina prolaska kroz nulu LP i VLP signala. ||
-| DEAP | zEMG + tEMG    |   Snaga u frekvencijskom opsegu [4, 40] Hz||
-| Johnwakim 2008.      | MEAN, STD, MEAN prvog izvoda, MEAN drugog izvoda nefiltriranog i LP filtriranog signala (fcutoff=0.3 Hz);
-Broj pikova u LP i VLP signalu (fcutoff=0.1 Hz) i njihov odnos.
-||
-| DEAP     | HRV          | MEAN, STD, odnos snage u opsezima [0.04, 0.15] Hz i [0.15, 0.5] Hz.
-Snaga u tri opsega – [0.01,0.08] , [0.08,0.15], [0.15, 0.5]   Hz
-||
-| Elderly 2019. | HRV     |  MEAN prvog izvoda, duzina luka (arc-length), RMS, obim podrucija (area-perimeter ratio)
- ||
-| DEAP | Telesna temperatura     |    MEAN, STD, MEAN prvog izvoda, minimalna i maksimalna temperatura, snaga u opsezima:
-[0, 0.1] Hz i [0.1, 0.2] Hz
-||
+| Jenke 2014.      | EEG | Snaga, srednja vrednost (MEAN), standardna devijacija (STD), prvi izvod, normalizovan prvi izvod, drugi izvod, normalizovan drugi izvod. |7x4x32|
+| Jenke 2014.      | EEG      |   Aktivnost, mobilnost, kompleksnost|4x4x32|
+| Jenke 2014. | EEG      |   Spektralna gustina snage u alfa, beta, gama i delta opsegu. |3x4x32|
+| Jenke 2014.      | EEG | Diskretna wavelet transformacija. |4x32|
+| po ugledu na Johnwakim 2008.      | Respiratorni pojas   |   Maksimalna amplituda spektra, MEAN spektra u opsegu 0.2-0.5 Hz, maksimalna amplituda spektralne gustine snage, MEAN spektralne gustine snage u opsegu 0.2-0.5 Hz|4|
+| Johnwakim 2008.| HRV    |MEAN peak-to-peak intervala, STD peak-to-peak intervala, SDT prvog izvoda intervala, median intervala, opseg intervala, MEAN brzine disanja, maksimum brzine disanja, minimum brzine disanja, STD brzine disanja, broj intervala duzih od 50 i 20 ms i njihov udeo u ukupnom broju intervala, koren iz MEAN sume kvadrata peak-to-peak intervala, koeficijent promene intervala, koeficijent varijacije intervala. Ukupna gustina snage, snaga u VLF opsegu (0.003-0.04 Hz), LF opsegu (0.04-0.15 Hz) i HF opsegu (0.15-40 Hz), odnos LF/HF, normalizovana snaga u LF i HF opsegu|23|
+| Johnwakim 2008.    | GSR | MEAN, STD, MEAN prvog izvoda, MEAN drugog izvoda nefiltriranog i lowpass (LP) filtriranog signala (fcutoff=0.2 Hz). Broj pikova u LP i very lowpass (VLP) signalu (fcutoff=0.08 Hz), njihov odnos i srednja amplitude.|12|
+| DEAP   | GSR     |  Brzina prolaska kroz nulu LP i VLP signala. |2|
+| DEAP | zEMG + tEMG    |   Snaga u frekvencijskom opsegu [4, 40] Hz|2|
+| Johnwakim 2008.|   zEMG + tEMG   | MEAN, STD, MEAN prvog izvoda, MEAN drugog izvoda nefiltriranog i LP filtriranog signala (fcutoff=0.3 Hz); Broj pikova u LP i VLP signalu (fcutoff=0.1 Hz) i njihov odnos.|11x2|
+| DEAP     | HRV          | MEAN, STD, odnos snage u opsezima [0.04, 0.15] Hz i [0.15, 0.5] Hz. Snaga u tri opsega – [0.01,0.08] , [0.08,0.15], [0.15, 0.5]   Hz|6|
+| Elderly 2019. | HRV     |  MEAN prvog izvoda, duzina luka (arc-length), RMS, obim podrucija (area-perimeter ratio)|4|
+| DEAP | Telesna temperatura     |    MEAN, STD, MEAN prvog izvoda, minimalna i maksimalna temperatura, snaga u opsezima:[0, 0.1] Hz i [0.1, 0.2] Hz|7|
 
 
 ## Rezultati
