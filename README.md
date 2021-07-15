@@ -50,6 +50,12 @@ Na sledećoj slici su prikazana najznačajnija obeležja za klasifikaciju parame
 ### Tačnost klasifikacije
 
 
+|      |   **Arousal**        | **Valence**  | **Dominance**|**Liking** | 
+| :-------------: |:-------------:| :-----:|:------:|:------: | 
+|   | Acc   F1 | Acc   F1 |Acc   F1|Acc   F1| 
+| SVM|67.1% 75.4% |66.2% 74.3% |71.2% 79.4% | 70.9% 80.1%| 
+| CatBoost      |63.1% 78.0% |  63.9% 77.4%| 66.9% 80.1%|69.5% 82.0%|  
+| Neuralne mreže | 64.3% 77.9%|64.6% 78.3% | 66.0% 79.3% |71.1% 82.5%|  
 ### Autori
 ------------
 * [![logo1](https://img.shields.io/github/followers/cokoladnomleko?label=Tamara%20Stajic&style=social)](https://github.com/cokoladnomleko)
